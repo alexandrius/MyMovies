@@ -1,8 +1,5 @@
 package turtlecat.mymovies;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Receiver(actions = K.MOVIES_LOADED)
     protected void onMoviesLoaded() {
+        //TODO: test with broadcasts
         Tools.log("Movies Loaded");
     }
 }

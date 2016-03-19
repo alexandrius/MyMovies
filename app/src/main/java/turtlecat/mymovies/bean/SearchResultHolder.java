@@ -2,15 +2,12 @@ package turtlecat.mymovies.bean;
 
 import java.util.List;
 
-import io.realm.RealmObject;
-import io.realm.annotations.RealmClass;
 
 /**
  * Created by Alex on 3/19/2016.
  */
 
-@RealmClass
-public class SearchResultHolder extends RealmObject{
+public class SearchResultHolder{
     private List<SearchResultItem> Search;
     private int totalResults;
     private String response;

@@ -1,14 +1,12 @@
 package turtlecat.mymovies.bean;
 
-import io.realm.RealmObject;
-import io.realm.annotations.RealmClass;
+
 
 /**
  * Created by Alex on 3/19/2016.
  */
 
-@RealmClass
-public class SearchResultItem extends RealmObject {
+public class SearchResultItem{
     private String Title;
     private String Year;
     private String imdbID;

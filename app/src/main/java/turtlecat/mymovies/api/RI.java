@@ -1,18 +1,23 @@
 package turtlecat.mymovies.api;
 
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.EBean;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import turtlecat.mymovies.App;
+import turtlecat.mymovies.MyApp;
 import turtlecat.mymovies.bean.SearchResultHolder;
 import turtlecat.mymovies.utils.Tools;
 
 /**
  * Created by Alex on 3/19/2016.
  */
+@EBean
 public class RI {
-    @org.androidannotations.annotations.App
-    App app;
+
+    @App
+    MyApp app;
 
     public void searchMovie(String name, int pageIndex) {
         Call<SearchResultHolder> call = app.getOmdbService().searchMovie(name, pageIndex);
@@ -24,7 +29,7 @@ public class RI {
 
             @Override
             public void onFailure(Call<SearchResultHolder> call, Throwable t) {
-                Tools.showToast("Error happened");
+                Tools.showToast(app, "Error happened");
             }
         });
     }

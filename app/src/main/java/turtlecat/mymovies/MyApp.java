@@ -1,7 +1,6 @@
 package turtlecat.mymovies;
 
 import android.app.Application;
-import android.content.Intent;
 
 import org.androidannotations.annotations.EApplication;
 
@@ -14,7 +13,8 @@ import turtlecat.mymovies.utils.K;
  * Created by Alex on 3/19/2016.
  */
 @EApplication
-public class App extends Application {
+public class MyApp extends Application {
+
     private OMDbService omdbService;
 
     public OMDbService getOmdbService() {
@@ -32,8 +32,4 @@ public class App extends Application {
         omdbService = retrofit.create(OMDbService.class);
     }
 
-//    public void sendBroadcast(String action) {
-//        Intent i = new Intent(K.MOVIES_LOADED);
-//        sendBroadcast(i);
-//    }
 }
