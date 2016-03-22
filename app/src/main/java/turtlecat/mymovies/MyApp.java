@@ -21,7 +21,6 @@ public class MyApp extends Application {
         return omdbService;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();

@@ -1,6 +1,6 @@
 package turtlecat.mymovies.bean;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -8,15 +8,16 @@ import java.util.List;
  */
 
 public class SearchResultHolder{
-    private List<SearchResultItem> Search;
+    private ArrayList<SearchResultItem> Search;
     private int totalResults;
     private String response;
 
-    public List<SearchResultItem> getSearch() {
+
+    public ArrayList<SearchResultItem> getSearch() {
         return Search;
     }
 
-    public void setSearch(List<SearchResultItem> search) {
+    public void setSearch(ArrayList<SearchResultItem> search) {
         Search = search;
     }
 
