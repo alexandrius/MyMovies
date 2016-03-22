@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
+        android:transitionName="@string/toolbar_transition"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/detailedImageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/recycler_item_height"
+            android:layout_margin="@dimen/recycler_item_margin"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/rounded_search_box"
+            android:transitionName="@string/movie_transition"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/recycler_item_height"
+            android:layout_margin="@dimen/recycler_item_margin"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

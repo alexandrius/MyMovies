@@ -9,7 +9,8 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar"
+        android:transitionName="@string/toolbar_transition"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/movieRecyclerView"

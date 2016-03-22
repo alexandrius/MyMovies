@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:elevation="4dp"
+    android:transitionName="@string/toolbar_transition"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -13,7 +14,9 @@
         android:id="@+id/toolbarSearchLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/toolbarSearchET"
@@ -37,10 +40,10 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:text="Search"
             android:clickable="true"
             android:focusable="true"
+            android:gravity="center"
+            android:text="Search"
             android:textColor="@color/search_selector"
             android:textSize="18sp"
             android:textStyle="bold"/>

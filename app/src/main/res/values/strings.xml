@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyMovies</string>
+    <string name="movie_transition" translatable="false">movie_transition</string>
+    <string name="toolbar_transition" translatable="false">toolbar_transition</string>
 </resources>
