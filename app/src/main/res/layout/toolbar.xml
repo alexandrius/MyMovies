@@ -10,12 +10,12 @@
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+
     <LinearLayout
         android:id="@+id/toolbarSearchLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-
         android:visibility="gone">
 
         <EditText
@@ -26,29 +26,25 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/rounded_search_box"
+            android:focusable="true"
             android:hint="Enter movie name"
+            android:imeOptions="actionSearch"
             android:maxLines="1"
             android:paddingBottom="5dp"
+
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:singleLine="true"/>
 
-        <TextView
+        <ImageButton
             android:id="@+id/toolbarSearchButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginRight="20dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="Search"
-            android:textColor="@color/search_selector"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
-
+            android:background="@null"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"/>
     </LinearLayout>
-
 
 </android.support.v7.widget.Toolbar>

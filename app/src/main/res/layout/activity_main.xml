@@ -12,8 +12,21 @@
         layout="@layout/toolbar"
         android:transitionName="@string/toolbar_transition"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/movieRecyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/movieRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <ProgressBar
+            android:id="@+id/movieProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </FrameLayout>
 </LinearLayout>

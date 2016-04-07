@@ -30,5 +30,4 @@ public class MyApp extends Application {
                 .build();
         omdbService = retrofit.create(OMDbService.class);
     }
-
 }

@@ -44,11 +44,8 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
     public void onBindViewHolder(final MovieViewHolder holder, int position) {
         holder.posterView.setTag(holder.loadingView);
         holder.loadingView.setTag(holder.posterView);
-
-
         Picasso.with(activity).load(getItem(position).getPoster()).into(holder.posterView);
-
-        Picasso.with(activity).load(getItem(position).getPoster()).into(holder.posterView, new Callback() {
+        Picasso.with(activity).load(getItem(position).getPoster()).error(R.mipmap.no_photo).into(holder.posterView, new Callback() {
             @Override
             public void onSuccess() {
                 LoadingView view = (LoadingView) holder.posterView.getTag();
@@ -93,11 +90,9 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
             public void onClick(View v) {
                 Intent i = new Intent(activity, MovieDetailedActivity_.class);
                 i.putExtra("poster", getItem(getAdapterPosition()).getPoster());
-
                 if (Tools.isLollipopOrNewer()) {
                     Pair<View, String> pair1 = Pair.create((View) posterView, posterView.getTransitionName());
                     Pair<View, String> pair2 = Pair.create((View) activity.getToolbar(), activity.getToolbar().getTransitionName());
-
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, pair1, pair2);
                     ActivityOptions transitionActivityOptions =
                             ActivityOptions.makeSceneTransitionAnimation(activity, posterView, activity.getString(R.string.movie_transition));

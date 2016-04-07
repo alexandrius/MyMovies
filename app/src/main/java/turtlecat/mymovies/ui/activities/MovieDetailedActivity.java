@@ -7,7 +7,6 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import org.androidannotations.annotations.AfterExtras;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -28,6 +27,8 @@ public class MovieDetailedActivity extends AppCompatActivity {
     Toolbar toolbar;
     @Extra
     String poster;
+    @ViewById
+    ImageView movieDetailedBackground;
 
     @AfterViews
     void initUI() {
@@ -39,8 +40,4 @@ public class MovieDetailedActivity extends AppCompatActivity {
         Picasso.with(this).load(poster).into(detailedImageView);
     }
 
-    @AfterExtras
-    void loadUI(){
-
-    }
 }

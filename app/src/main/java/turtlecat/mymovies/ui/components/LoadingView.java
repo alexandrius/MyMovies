@@ -20,7 +20,7 @@ import turtlecat.mymovies.utils.Tools;
 
 public class LoadingView extends FrameLayout {
 
-    private View loadingAlphaView;
+    private View loadingAlphaView, loadingAlphaBackground;
     private static final long ANIM_DURATION = 100;
     private static final long REVEAL_ANIM_DURATION = 500;
 
@@ -42,6 +42,7 @@ public class LoadingView extends FrameLayout {
     private void init() {
         inflate(getContext(), R.layout.loading_layout, this);
         loadingAlphaView = findViewById(R.id.loadingAlphaView);
+        loadingAlphaBackground = findViewById(R.id.loadingAlphaBackground);
         loadingAlphaView.setTag(0f);
         loadingAlphaView.animate().setDuration(ANIM_DURATION).setListener(animListener).alpha(0f);
     }
@@ -60,11 +61,12 @@ public class LoadingView extends FrameLayout {
             animator.start();
         } catch (IllegalStateException e) {
         }
-        loadingAlphaView.animate().cancel();
+        cancel();
     }
 
     public void cancel() {
         loadingAlphaView.animate().cancel();
+        setVisibility(GONE);
     }
 
     Animator.AnimatorListener animListener = new Animator.AnimatorListener() {
