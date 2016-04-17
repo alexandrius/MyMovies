@@ -1,17 +1,32 @@
 package turtlecat.mymovies.bean;
 
 
-
 /**
  * Created by Alex on 3/19/2016.
  */
 
-public class SearchResultItem{
+public class SearchResultItem {
     private String Title;
     private String Year;
     private String imdbID;
     private String Poster;
     private String type;
+    private String Rated;
+    private String Released;
+    private String Runtime;
+    private String Genre;
+    private String Director;
+    private String Actors;
+    private String Plot;
+    private String Language;
+    private String County;
+    private String Awards;
+    private String Metascore;
+    private String imdbRating;
+    private String imdbVotes;
+    private String Type;
+    private String Response;
+
 
     public String getTitle() {
         return Title;

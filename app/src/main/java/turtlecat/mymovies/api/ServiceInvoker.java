@@ -10,6 +10,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import turtlecat.mymovies.MyApp;
 import turtlecat.mymovies.bean.SearchResultHolder;
+import turtlecat.mymovies.bean.SearchResultItem;
 import turtlecat.mymovies.utils.K;
 import turtlecat.mymovies.utils.Tools;
 
@@ -27,20 +28,38 @@ public class ServiceInvoker {
         call.enqueue(new Callback<SearchResultHolder>() {
             @Override
             public void onResponse(Call<SearchResultHolder> call, Response<SearchResultHolder> response) {
-                if (pageIndex == 1) {
-                    RuntimeCache.getInstance().setSearchResultCount(response.body().getTotalResults());
-                    RuntimeCache.getInstance().setSearchedMovies(response.body().getSearch());
-                } else {
-                    RuntimeCache.getInstance().addSearchedMovies(response.body().getSearch());
-                }
+                boolean isEmpty = response.body().getSearch() == null;
+                if (!isEmpty)
+                    if (pageIndex == 1) {
+                        RuntimeCache.getInstance().setSearchResultCount(response.body().getTotalResults());
+                        RuntimeCache.getInstance().setSearchedMovies(response.body().getSearch());
+                    } else {
+                        RuntimeCache.getInstance().addSearchedMovies(response.body().getSearch());
+                    }
 
                 Intent intent = new Intent(K.MOVIES_LOADED);
+                intent.putExtra(K.MOVIES_EMPTY, isEmpty);
                 app.sendBroadcast(intent);
             }
 
             @Override
             public void onFailure(Call<SearchResultHolder> call, Throwable t) {
                 Tools.showToast(app, "Error happened");
+            }
+        });
+    }
+
+    public void getMovieDetailed(String id, String plotType) {
+        Call<SearchResultItem> call = app.getOmdbService().getMovieDetailed(id, plotType);
+        call.enqueue(new Callback<SearchResultItem>() {
+            @Override
+            public void onResponse(Call<SearchResultItem> call, Response<SearchResultItem> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<SearchResultItem> call, Throwable t) {
+
             }
         });
     }

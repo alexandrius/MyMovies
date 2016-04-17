@@ -4,6 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import turtlecat.mymovies.bean.SearchResultHolder;
+import turtlecat.mymovies.bean.SearchResultItem;
 import turtlecat.mymovies.utils.K;
 
 /**
@@ -13,5 +14,6 @@ public interface OMDbService {
     @GET("/")
     Call<SearchResultHolder> searchMovie(@Query(K.SEARCH_PARAM) String searchQuery, @Query(K.PAGE_PARAM) int pageIndex);
 
-    //TODO: add movie detailed
+    @GET("/")
+    Call<SearchResultItem> getMovieDetailed(@Query(K.ID_PARAM) String id, @Query(K.PLOT_PARAM) String plotType);
 }

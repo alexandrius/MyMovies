@@ -1,11 +1,16 @@
 package turtlecat.mymovies.ui.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -29,6 +34,10 @@ public class MovieDetailedActivity extends AppCompatActivity {
     String poster;
     @ViewById
     ImageView movieDetailedBackground;
+    @ViewById
+    TextView detailedPlotTextView;
+
+    private Bitmap detailedBlurredBitmap;
 
     @AfterViews
     void initUI() {
@@ -36,7 +45,33 @@ public class MovieDetailedActivity extends AppCompatActivity {
         if (Tools.getAndroidVersion() >= Build.VERSION_CODES.LOLLIPOP) {
             toolbar.setPadding(0, Tools.getStatusBarHeight(this), 0, 0);
         }
-        Picasso.with(this).load(poster).into(detailedImageView);
+        loadData();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        detailedBlurredBitmap.recycle();
+    }
+
+    private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            detailedBlurredBitmap = Tools.fastBlur(bitmap, 9);
+            movieDetailedBackground.setImageBitmap(detailedBlurredBitmap);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+        }
+    };
+
+    private void loadData() {
+        Picasso.with(this).load(poster).into(detailedImageView);
+        Picasso.with(this).load(poster).into(target);
+    }
 }
