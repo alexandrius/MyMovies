@@ -12,4 +12,5 @@ public class K {
     public static final String PAGE_PARAM = "page";
     public static final String MOVIES_LOADED = "MOVIES_LOADED";
     public static final String MOVIES_EMPTY = "MOVIES_EMPTY";
+    public static final String NO_POSTER = "N/A";
 }

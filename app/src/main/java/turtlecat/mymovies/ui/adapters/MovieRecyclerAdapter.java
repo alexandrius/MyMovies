@@ -22,6 +22,7 @@ import turtlecat.mymovies.bean.SearchResultItem;
 import turtlecat.mymovies.ui.activities.MainActivity;
 import turtlecat.mymovies.ui.activities.MovieDetailedActivity_;
 import turtlecat.mymovies.ui.components.LoadingView;
+import turtlecat.mymovies.utils.K;
 import turtlecat.mymovies.utils.Tools;
 
 /**
@@ -73,7 +74,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
             holder.loadingView.prepare();
             holder.posterView.setTag(holder.loadingView);
             holder.loadingView.setTag(holder.posterView);
-            if (!getItem(position).getPoster().equals("N/A")) {
+            if (!getItem(position).getPoster().equals(K.NO_POSTER)) {
                 Picasso.with(activity)
                         .load(getItem(position).getPoster())
                         .error(R.mipmap.no_photo)

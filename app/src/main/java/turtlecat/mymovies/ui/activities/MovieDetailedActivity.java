@@ -17,6 +17,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import turtlecat.mymovies.R;
+import turtlecat.mymovies.utils.K;
 import turtlecat.mymovies.utils.Tools;
 
 /**
@@ -50,7 +51,8 @@ public class MovieDetailedActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        detailedBlurredBitmap.recycle();
+        if (detailedBlurredBitmap != null)
+            detailedBlurredBitmap.recycle();
     }
 
     private Target target = new Target() {
@@ -70,7 +72,9 @@ public class MovieDetailedActivity extends AppCompatActivity {
     };
 
     private void loadData() {
-        Picasso.with(this).load(poster).into(detailedImageView);
-        Picasso.with(this).load(poster).into(target);
+        if (!poster.equals(K.NO_POSTER)) {
+            Picasso.with(this).load(poster).into(detailedImageView);
+            Picasso.with(this).load(poster).into(target);
+        }
     }
 }
