@@ -27,9 +27,8 @@ public class ServiceInvoker {
         call.enqueue(new Callback<SearchResultHolder>() {
             @Override
             public void onResponse(Call<SearchResultHolder> call, Response<SearchResultHolder> response) {
-                RuntimeCache.getInstance().setSearchResultCount(response.body().getTotalResults());
-
                 if (pageIndex == 1) {
+                    RuntimeCache.getInstance().setSearchResultCount(response.body().getTotalResults());
                     RuntimeCache.getInstance().setSearchedMovies(response.body().getSearch());
                 } else {
                     RuntimeCache.getInstance().addSearchedMovies(response.body().getSearch());

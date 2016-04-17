@@ -20,7 +20,7 @@ import turtlecat.mymovies.utils.Tools;
 
 public class LoadingView extends FrameLayout {
 
-    private View loadingAlphaView, loadingAlphaBackground;
+    private View loadingAlphaView;
     private static final long ANIM_DURATION = 100;
     private static final long REVEAL_ANIM_DURATION = 500;
 
@@ -42,9 +42,12 @@ public class LoadingView extends FrameLayout {
     private void init() {
         inflate(getContext(), R.layout.loading_layout, this);
         loadingAlphaView = findViewById(R.id.loadingAlphaView);
-        loadingAlphaBackground = findViewById(R.id.loadingAlphaBackground);
         loadingAlphaView.setTag(0f);
         loadingAlphaView.animate().setDuration(ANIM_DURATION).setListener(animListener).alpha(0f);
+    }
+
+    public void prepare() {
+        setVisibility(VISIBLE);
     }
 
     public void imageLoaded() {
@@ -54,13 +57,14 @@ public class LoadingView extends FrameLayout {
         int centerY = itemHeight / 2;
         int centerX = itemWidth / 2;
         imageView.setVisibility(VISIBLE);
-        try {
-            Animator animator = ViewAnimationUtils.createCircularReveal(imageView, centerX, centerY, 0, (float) Math.hypot(itemHeight, itemWidth));
-            animator.setInterpolator(new AccelerateDecelerateInterpolator());
-            animator.setDuration(REVEAL_ANIM_DURATION);
-            animator.start();
-        } catch (IllegalStateException e) {
-        }
+        if (Tools.isLollipopOrNewer())
+            try {
+                Animator animator = ViewAnimationUtils.createCircularReveal(imageView, centerX, centerY, 0, (float) Math.hypot(itemHeight, itemWidth));
+                animator.setInterpolator(new AccelerateDecelerateInterpolator());
+                animator.setDuration(REVEAL_ANIM_DURATION);
+                animator.start();
+            } catch (IllegalStateException e) {
+            }
         cancel();
     }
 
@@ -83,14 +87,10 @@ public class LoadingView extends FrameLayout {
 
         @Override
         public void onAnimationCancel(Animator animation) {
-
         }
 
         @Override
         public void onAnimationRepeat(Animator animation) {
-
         }
     };
-
-
 }

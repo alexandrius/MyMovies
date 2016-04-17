@@ -36,7 +36,6 @@ public class MovieDetailedActivity extends AppCompatActivity {
         if (Tools.getAndroidVersion() >= Build.VERSION_CODES.LOLLIPOP) {
             toolbar.setPadding(0, Tools.getStatusBarHeight(this), 0, 0);
         }
-        Tools.log(poster);
         Picasso.with(this).load(poster).into(detailedImageView);
     }
 

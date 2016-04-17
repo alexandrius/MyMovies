@@ -1,40 +1,42 @@
 package turtlecat.mymovies.ui.activities;
 
-import android.animation.Animator;
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
+import android.graphics.PorterDuff;
 import android.widget.LinearLayout;
+import android.animation.Animator;
 import android.widget.ProgressBar;
+import android.content.Context;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.view.MenuItem;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Menu;
+import android.os.Build;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Receiver;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.AfterViews;
 
 import turtlecat.mymovies.R;
-import turtlecat.mymovies.api.ServiceInvoker;
-import turtlecat.mymovies.ui.adapters.MovieRecyclerAdapter;
+import turtlecat.mymovies.api.RuntimeCache;
 import turtlecat.mymovies.utils.K;
 import turtlecat.mymovies.utils.Tools;
+import turtlecat.mymovies.api.ServiceInvoker;
+import turtlecat.mymovies.ui.adapters.MovieRecyclerAdapter;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewTreeObserver.OnScrollChangedListener {
     @Bean
     protected ServiceInvoker si;
     @ViewById
@@ -52,18 +54,34 @@ public class MainActivity extends AppCompatActivity {
     protected EditText toolbarSearchET;
 
     private int currentPagingIndex = 1;
+    private String searchedString;
 
+    private GridLayoutManager gridLayoutManager;
     private MovieRecyclerAdapter adapter;
 
     @Click
     protected void toolbarSearchButton() {
         showSearch(false);
-
     }
 
     public Toolbar getToolbar() {
         return toolbar;
     }
+
+
+    private GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
+        @Override
+        public int getSpanSize(int position) {
+            switch (adapter.getItemViewType(position)) {
+                case MovieRecyclerAdapter.TYPE_MOVIE_ITEM:
+                    return 1; //FIXME:  REF: -> TODO #1
+                case MovieRecyclerAdapter.TYPE_PROGRESS_BAR:
+                    return 2;
+                default:
+                    return -1;
+            }
+        }
+    };
 
     @AfterViews
     protected void initUI() {
@@ -75,24 +93,40 @@ public class MainActivity extends AppCompatActivity {
             toolbar.setPadding(0, Tools.getStatusBarHeight(this), 0, 0);
         }
         adapter = new MovieRecyclerAdapter(this);
-        movieRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        gridLayoutManager = new GridLayoutManager(this, 2);
+        gridLayoutManager.setSpanCount(2);
+        gridLayoutManager.setSpanSizeLookup(spanSizeLookup);
+        movieRecyclerView.setLayoutManager(gridLayoutManager); //TODO #1: adapt to tablets and orientation changes
         movieRecyclerView.setAdapter(adapter);
+        movieProgressBar.getViewTreeObserver().addOnScrollChangedListener(this);
 
         toolbarSearchET.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 movieProgressBar.setVisibility(View.VISIBLE);
-                si.searchMovie(toolbarSearchET.getText().toString(), currentPagingIndex);
+                currentPagingIndex = 1;
+                searchedString = toolbarSearchET.getText().toString();
+                getMovieList();
                 return false;
             }
         });
     }
 
+    private void getIncrementedPageMovieList() {
+        currentPagingIndex++;
+        getMovieList();
+    }
+
+    private void getMovieList() {
+        si.searchMovie(searchedString, currentPagingIndex);
+    }
 
     @Receiver(actions = K.MOVIES_LOADED)
     protected void onMoviesLoaded() {
-        movieProgressBar.setVisibility(View.GONE);
-        adapter.notifyDataSetChanged();
+        if (movieProgressBar.getVisibility() == View.VISIBLE)
+            movieProgressBar.setVisibility(View.GONE);
+
+        adapter.notifyDataChanged();
     }
 
     @Override
@@ -156,6 +190,16 @@ public class MainActivity extends AppCompatActivity {
             animator.start();
         } else if (!shouldShow) {
             toolbarSearchLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onScrollChanged() {
+        if (adapter.getHasProgress()) {
+            int lastItem = gridLayoutManager.findLastVisibleItemPosition();
+            if (lastItem == RuntimeCache.getInstance().getSearchedMovies().size()) {
+                getIncrementedPageMovieList();
+            }
         }
     }
 }

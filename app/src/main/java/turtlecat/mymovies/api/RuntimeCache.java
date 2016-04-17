@@ -9,7 +9,7 @@ import turtlecat.mymovies.bean.SearchResultItem;
  */
 public class RuntimeCache {
     private static RuntimeCache instance;
-    private ArrayList<SearchResultItem> searchedMovies;
+    private ArrayList<SearchResultItem> searchedMovies = new ArrayList<>();
     private int searchResultCount;
 
     public static void setInstance(RuntimeCache instance) {
@@ -33,11 +33,12 @@ public class RuntimeCache {
     }
 
     public void addSearchedMovies(ArrayList<SearchResultItem> movies) {
-        searchedMovies.addAll(movies);
+        if (movies != null)
+            searchedMovies.addAll(movies);
     }
 
 
-    public static RuntimeCache getInstance() {
+    public static synchronized RuntimeCache getInstance() {
         if (instance == null) instance = new RuntimeCache();
         return instance;
     }
